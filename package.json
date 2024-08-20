@@ -1,0 +1,14 @@
+{
+  "name": "bsmr",
+  "version": "1.0.0",
+  "description": "Mod to have passthrough for beat saber",
+  "main": "index.js",
+  "scripts": {
+    "watch": "node watch-templates.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^3.6.0"
+  }
+}
