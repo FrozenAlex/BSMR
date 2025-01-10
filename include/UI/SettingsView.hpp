@@ -28,58 +28,7 @@ DECLARE_CLASS_CODEGEN(BSMR::UI, SettingsView, HMUI::ViewController,
     DECLARE_INSTANCE_METHOD(void, PostParse);
     DECLARE_INSTANCE_METHOD(void, UpdateGraphicsSettings);
 
-    DECLARE_INSTANCE_FIELD(ListW<float>, systemDisplayFrequenciesAvailableValues);
-    DECLARE_INSTANCE_FIELD(ListW<StringW>, systemDisplayFrequenciesAvailableLabels);
-
-    // UI Elements
-    DECLARE_INSTANCE_FIELD(UnityW<BSML::IncrementSetting>, minGpuLevelElement);
-    DECLARE_INSTANCE_FIELD(UnityW<BSML::IncrementSetting>, minCpuLevelElement);
-    DECLARE_INSTANCE_FIELD(UnityW<BSML::IncrementSetting>, shockwaveParticlesCountElement);
-    DECLARE_INSTANCE_FIELD(UnityW<BSML::IncrementSetting>, resolutionLevelElementGame);
-    DECLARE_INSTANCE_FIELD(UnityW<BSML::IncrementSetting>, resolutionLevelElementMenu);
-
-    // Field values
-    BSML_OPTIONS_LIST_OBJECT(foveationLevelOptions, "Off", "Low", "Medium", "High", "HighTop");
-    BSML_OPTIONS_LIST_OBJECT(mirrorOptions, "Off", "Low", "Medium", "High");
-    BSML_OPTIONS_LIST_OBJECT(antiAliasingOptions, "Off", "2x", "4x");
-    BSML_OPTIONS_LIST_OBJECT(bloomQualityOptions, "Off", "On");
-    BSML_OPTIONS_LIST_OBJECT(smokeQualityOptions, "Off", "Low", "High");
-    BSML_OPTIONS_LIST_OBJECT(booleanOptions, "Off", "On");
-    BSML_OPTIONS_LIST_OBJECT(wallQualityOptions, "Transparent", "Textured", "Distorted");
-    BSML_OPTIONS_LIST_OBJECT(colorSpaceOptions, "Unknown", "Unmanaged", "Rec_2020", "Rec_709", "Rift_CV1", "Rift_S", "Quest", "P3", "Adobe_RGB" );
-
-    // Fields
-    DECLARE_BSML_PROPERTY(StringW, mirrorValue);
-    DECLARE_BSML_PROPERTY(StringW, antiAliasingValue);
-    DECLARE_BSML_PROPERTY(StringW, bloomQualityValue);
-    DECLARE_BSML_PROPERTY(StringW, smokeQualityValue);
-    DECLARE_BSML_PROPERTY(StringW, wallQualityValue);
-
-    DECLARE_BSML_PROPERTY(float, shockwaveParticlesValue);
-    DECLARE_BSML_PROPERTY(StringW, foveationLevelValueMenu);
-    DECLARE_BSML_PROPERTY(StringW, foveationLevelValueGame);
-
-    DECLARE_BSML_PROPERTY(float, resolutionLevelValueMenu);
-    DECLARE_BSML_PROPERTY(float, resolutionLevelValueGame);
-
-    DECLARE_BSML_PROPERTY(StringW, targetFPSValueMenu);
-    DECLARE_BSML_PROPERTY(StringW, targetFPSValueGame);
-
-
-
     // Instant settings
-    DECLARE_BSML_PROPERTY(bool, menuScreenDistortionValue);
-    DECLARE_BSML_PROPERTY(bool, gameScreenDistortionValue);
-
-    // Boolean settings
-    DECLARE_BSML_PROPERTY(bool, burnMarksValue);
-    DECLARE_BSML_PROPERTY(bool, FPSCounterValue);
-    DECLARE_BSML_PROPERTY(bool, FPSCounterAdvancedValue);
-
-    // Levels
-    DECLARE_BSML_PROPERTY(float, gpuLevelValue);
-    DECLARE_BSML_PROPERTY(float, cpuLevelValue);
-
-    // Color space
-    DECLARE_BSML_PROPERTY(StringW, colorSpaceValue);
+    DECLARE_BSML_PROPERTY(bool, PassthroughEnabled);
+    DECLARE_BSML_PROPERTY(float, PassthroughOpacity);
 )

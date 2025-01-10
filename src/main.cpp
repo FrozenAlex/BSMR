@@ -97,6 +97,7 @@ MAKE_HOOK_MATCH(
     GlobalNamespace::GameplayCoreInstaller* self
 ) {
     DEBUG("GameplayCoreInstaller_InstallBindings hook called!");
+    GameplayCoreInstaller_InstallBindings(self);
 }
 
 MAKE_HOOK_MATCH(MainFlowCoordinator_DidActivate, &GlobalNamespace::MainFlowCoordinator::DidActivate, void, GlobalNamespace::MainFlowCoordinator* self, bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
@@ -104,6 +105,50 @@ MAKE_HOOK_MATCH(MainFlowCoordinator_DidActivate, &GlobalNamespace::MainFlowCoord
     DEBUG("MainFlowCoordinator_DidActivate");
 
 }
+
+bool firstTimeInit = false;
+
+MAKE_HOOK_MATCH(AlwaysVisibleQuad_OnEnable, &GlobalNamespace::AlwaysVisibleQuad::OnEnable, void, GlobalNamespace::AlwaysVisibleQuad* self) {
+    auto gameObject = self->get_gameObject();
+    DEBUG("AlwaysVisibleQuad_OnEnable");
+    gameObject->SetActive(!getBSMRConfig().PassthroughEnabled.GetValue());
+}
+
+MAKE_HOOK_MATCH(MainCamera_Awake, &GlobalNamespace::MainCamera::Awake, void, GlobalNamespace::MainCamera* self) {
+    MainCamera_Awake(self);
+    DEBUG("MainCamera_Awake");
+
+    if (!firstTimeInit) {
+        auto ovrManagerGO = UnityEngine::GameObject::New_ctor("OVRManager");
+        UnityEngine::Object::DontDestroyOnLoad(ovrManagerGO);
+        ovrManagerGO->SetActive(false);
+        auto ovrManager = ovrManagerGO->AddComponent<GlobalNamespace::OVRManager*>();
+        ovrManager->___useRecommendedMSAALevel = false;
+        ovrManager->___isInsightPassthroughEnabled = true;
+        ovrManager->set_trackingOriginType(GlobalNamespace::__OVRManager__TrackingOrigin::FloorLevel);
+        ovrManagerGO->SetActive(true);
+        firstTimeInit = true;
+        DEBUG("Initialized OVRManager!");
+    }
+
+    auto mainCamera = self->get_camera();
+    auto mainCameraGO = mainCamera->get_gameObject();
+
+    auto backgroundColor = UnityEngine::Color(
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f
+    );
+
+    mainCamera->set_clearFlags(UnityEngine::CameraClearFlags::SolidColor);
+    mainCamera->set_backgroundColor(backgroundColor);
+
+    auto ovrPassthroughLayer = mainCameraGO->AddComponent<GlobalNamespace::OVRPassthroughLayer*>();
+    ovrPassthroughLayer->___overlayType = GlobalNamespace::OVROverlay::OverlayType::Underlay;
+    ovrPassthroughLayer->set_textureOpacity(getBSMRConfig().PassthroughOpacity.GetValue());
+}
+
 
 // Called later on in the game loading - a good time to install function hooks
 GT_EXPORT_FUNC void load() {
@@ -115,8 +160,10 @@ GT_EXPORT_FUNC void load() {
     
 
     INFO("Installing hooks...");
-    INSTALL_HOOK(Logger, GameplayCoreInstaller_InstallBindings);
-    INSTALL_HOOK(Logger, MainFlowCoordinator_DidActivate);
+    // INSTALL_HOOK(Logger, GameplayCoreInstaller_InstallBindings);
+    // INSTALL_HOOK(Logger, MainFlowCoordinator_DidActivate);
+    INSTALL_HOOK(Logger, AlwaysVisibleQuad_OnEnable);
+    INSTALL_HOOK(Logger, MainCamera_Awake);
 
     INFO("Installed all hooks!");
     BSML::Register::RegisterMainMenu<BSMR::UI::BSMRFlowCoordinator*>("<color=#D1ACFF>Mixed Reality", "Mix your reality");

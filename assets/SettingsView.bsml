@@ -4,6 +4,7 @@
 			<vertical spacing="0" child-control-height='false' bg='panel-top' pad='2' pad-bottom='1' pad-top='1' preferred-width='64'>
 				<text text='&lt;color=#9ff8ba>Graphics' align='Center' bold='true' font-size='3.5' color='#69B' size-delta-y='5' />
 				<bool-setting text='PassthroughEnabled' value="PassthroughEnabled" bind-value="true" apply-on-change="true"  />
+				<slider-setting id="minimumSongLengthSlider" text='Passthrough Opacity' value="PassthroughOpacity" bind-value="true" apply-on-change="true" min="0" max='1' increment='0.05' on-change="UpdateFilterSettings"/>
 			</vertical>
 		</vertical>
 	</horizontal>
